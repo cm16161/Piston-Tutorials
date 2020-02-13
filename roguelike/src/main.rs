@@ -26,7 +26,7 @@ const WHITE: Colour = [1.0; 4];
 const BLACK: Colour = [0.0, 0.0, 0.0, 1.0];
 
 const WINDOW_SIZE: i32 = 512;
-const PIXEL_SIZE: f64 = 32.0;
+const PIXEL_SIZE: f64 = 16.0;
 const WORLD_SIZE: i32 = WINDOW_SIZE / PIXEL_SIZE as i32;
 
 #[derive(Clone)]
@@ -36,11 +36,11 @@ struct Tile {
 
 impl Tile {
     pub fn empty() -> Self {
-        Tile { colour: WHITE }
+        Tile { colour: BLACK }
     }
 
     pub fn wall() -> Self {
-        Tile { colour: BLACK }
+        Tile { colour: GREEN }
     }
 }
 
@@ -83,7 +83,7 @@ fn main() {
     let map = make_map();
 
     let mut events = Events::new(EventSettings::new());
-    let mut player = Object::new(0, 0, '@', RED);
+    let mut player = Object::new(1, 1, '@', RED);
     while let Some(e) = events.next(&mut window) {
         if let Some(r) = e.render_args() {
             gl.draw(r.viewport(), |c, g| {
@@ -106,11 +106,11 @@ fn main() {
                     }
                 }
                 use graphics::Transformed;
-                    let character = glyphs.character(32, player.character).unwrap();
+                    let character = glyphs.character(PIXEL_SIZE as u32, player.character).unwrap();
                     graphics::Image::new_color(player.colour).draw(
                         character.texture,
                         &c.draw_state,
-                        c.transform.trans(player.x as f64, player.y as f64),
+                        c.transform.trans(player.x as f64 * PIXEL_SIZE, player.y as f64 * PIXEL_SIZE),
                         g,
                     );
             });
@@ -118,10 +118,10 @@ fn main() {
         if let Some(k) = e.button_args() {
             if k.state == ButtonState::Press {
                 match k.button {
-                    Button::Keyboard(Key::Up) => player.y -= PIXEL_SIZE as i32,
-                    Button::Keyboard(Key::Down) => player.y += PIXEL_SIZE as i32,
-                    Button::Keyboard(Key::Left) => player.x -= PIXEL_SIZE as i32,
-                    Button::Keyboard(Key::Right) => player.x += PIXEL_SIZE as i32,
+                    Button::Keyboard(Key::Up) => player.y -= 1,
+                    Button::Keyboard(Key::Down) => player.y += 1,
+                    Button::Keyboard(Key::Left) => player.x -= 1,
+                    Button::Keyboard(Key::Right) => player.x += 1,
                     _ => (),
                 }
             }

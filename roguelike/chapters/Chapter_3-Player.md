@@ -26,10 +26,11 @@ struct Object{
 ```
 
 Fill in the above template with the following fields:
-	*`x` position which of type `i32`
-	*`y` position which of type `i32`
-	*`character` of type `char` which represents what the character will appear as on screen
-	* `colour` of type `Colour` representing what colour our character should be
+
+  *`x` position which of type `i32`
+  *`y` position which of type `i32`
+  *`character` of type `char` which represents what the character will appear as on screen
+  * `colour` of type `Colour` representing what colour our character should be
 
 We now need to implement our `Object` struct like so:
 
